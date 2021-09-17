@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MST Gold</string>
+    <string name="gold_spot">Gold Spot</string>
+    <string name="silver_spot">Silver Spot</string>
+    <string name="inr">INR/Dollar</string>
+    <string name="particulars">Particulars</string>
+    <string name="sell">Sell</string>
+    <string name="buy">Buy</string>
+    <string name="gold_mcx">Gold MCX</string>
+    <string name="silver_mcx">Silver MCX</string>
+    <string name="confirm_book">Confirm Book</string>
+    <string name="bank">Bank:</string>
+    <string name="account">Name:</string>
+    <string name="account_no">A/c No:</string>
+    <string name="ifsc">IFSC:</string>
+    <string name="Branch">Branch:</string>
+    <string name="our_latest_bank_details">**Our Latest Bank Details**</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="business_name">Business Name</string>
+    <string name="User_name">Your Name</string>
+    <string name="phone">Phone Number</string>
+    <string name="enter_your_details">**Enter your details**</string>
+    <string name="create_account">Create Account</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+</resources>

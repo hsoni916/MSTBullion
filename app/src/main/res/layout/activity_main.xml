@@ -193,7 +193,7 @@
         app:layout_constraintEnd_toEndOf="@id/GoldMCX"
         app:layout_constraintTop_toBottomOf="@id/GoldMCX"/>
     <ImageView
-        android:id="@+id/GDIMXC"
+        android:id="@+id/GDIMCX"
         android:layout_width="20dp"
         android:layout_height="19dp"
         android:layout_gravity="center"
@@ -236,7 +236,7 @@
         app:layout_constraintStart_toStartOf="@id/SilverMCX"
         app:layout_constraintTop_toBottomOf="@id/GoldMCX"/>
     <ImageView
-        android:id="@+id/SDIMXC"
+        android:id="@+id/SDIMCX"
         android:layout_width="20dp"
         android:layout_height="19dp"
         android:layout_gravity="center"

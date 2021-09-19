@@ -14,9 +14,9 @@ import java.util.List;
 
 public class MetalListAdapter extends RecyclerView.Adapter<MetalListAdapter.ViewHolder> {
 
-    private final List<String> bullionList;
+    private final List<BullionEntry> bullionList;
 
-    public MetalListAdapter(List<String> bullionList) {
+    public MetalListAdapter(List<BullionEntry> bullionList) {
         this.bullionList = bullionList;
     }
 
@@ -29,8 +29,8 @@ public class MetalListAdapter extends RecyclerView.Adapter<MetalListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.MetalLabel.setText(bullionList.get(position));
-        holder.Price.setText("49100");
+        holder.MetalLabel.setText(bullionList.get(position).getLabel());
+        holder.Price.setText(String.valueOf(bullionList.get(position).getPrice()));
     }
 
     @Override

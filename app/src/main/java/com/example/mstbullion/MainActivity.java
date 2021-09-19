@@ -18,12 +18,22 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.model.Document;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.socket.client.IO;
 import io.socket.client.Manager;
@@ -36,10 +46,13 @@ public class MainActivity extends Fragment {
     Animation increase,decrease;
     RecyclerView MetalList;
     MetalListAdapter metalListAdapter;
-    List<String> bullionlist;
+    BullionEntry bullionEntry = new BullionEntry();
+    List<BullionEntry> bullionlist;
     private Context context;
     TextView GoldUsdTV,SilverUsdTV,InrUsdTV,GoldMcxTV,SilverMcxTV;
     int goldspot,silverspot;
+    double goldmcx,silvermcx;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     MainActivity(){
 
     }
@@ -56,6 +69,7 @@ public class MainActivity extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Nullable
@@ -103,19 +117,60 @@ public class MainActivity extends Fragment {
         decrease = AnimationUtils.loadAnimation(context,R.anim.translatedown);
         MetalList = view.findViewById(R.id.MetalList);
         bullionlist = new ArrayList<>();
-        bullionlist.add("Gold 999 IMP with GST");
-        bullionlist.add("Gold 999 IND with GST");
-        bullionlist.add("Gold 999 Ref");
-        bullionlist.add("Gold 999 IMP with GST [ AMD ]");
-        bullionlist.add("Gold 999 IMP with GST [ RAJ ]");
-        bullionlist.add("Silver Peti 30 kg");
+        firebaseFirestore.collection("AdminOptions").document("Margin").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if(error!=null){
+                            Log.d("Error in snapshot","listener");
+                    }else{
+                        if(value!=null && value.exists()){
+                            PamperPackArray pamperPackArray = value.toObject(PamperPackArray.class);
+                            assert pamperPackArray != null;
+                            //
+                            bullionlist.addAll(pamperPackArray.bullionEntries);
+                        }
+                    }
+                }
+            });
         metalListAdapter = new MetalListAdapter(bullionlist);
         MetalList.setAdapter(metalListAdapter);
         MetalList.setLayoutManager(new LinearLayoutManager(context));
         MetalList.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
+    public void setfirebaselistener(){
 
+
+        /* PamperPackArray pamperPackArray = new PamperPackArray();
+        pamperPackArray.bullionEntries = new ArrayList<>();
+        bullionlist = new ArrayList<>();
+        bullionEntry.setLabel("Gold 999 IND GST");
+        bullionEntry.setPrice(1650);
+        bullionlist.add(bullionEntry);
+        bullionEntry = new BullionEntry();
+        bullionEntry.setLabel("Gold 999 IMP GST");
+        bullionEntry.setPrice(1750);
+        bullionlist.add(bullionEntry);
+        bullionEntry = new BullionEntry();
+        bullionEntry.setLabel("Silver 30 kg GST");
+        bullionEntry.setPrice(850);
+        bullionlist.add(bullionEntry);
+        bullionEntry = new BullionEntry();
+        bullionEntry.setLabel("Gold Retail");
+        bullionEntry.setPrice(1650);
+        bullionlist.add(bullionEntry);
+        Log.d("Array", String.valueOf(bullionlist));
+        pamperPackArray.bullionEntries.addAll(bullionlist);
+        firebaseFirestore.collection("AdminOptions").document("Margin").set(pamperPackArray).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Log.d("Task","Success");
+                }
+            }
+        });*/
+
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -326,4 +381,5 @@ public class MainActivity extends Fragment {
             });
         }
     };
+
 }

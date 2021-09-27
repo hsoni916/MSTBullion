@@ -6,6 +6,7 @@
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/drawable/circle_background.xml" value="0.64875" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/drawable/outline.xml" value="0.64875" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/drawable/outline_1.xml" value="0.64875" />
+        <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/drawable/outline_2.xml" value="0.64" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/activity_main.xml" value="0.536" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/bank_details.xml" value="0.6" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/home.xml" value="0.6" />
@@ -13,6 +14,7 @@
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/pamperpack.xml" value="0.536" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/pamperpackrow.xml" value="0.61" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/user_account.xml" value="0.61" />
+        <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/user_account_logout.xml" value="0.60125" />
         <entry key="..\:/Users/Harsh/AndroidStudioProjects/MSTBullion/app/src/main/res/layout/user_account_signin.xml" value="0.16" />
       </map>
     </option>

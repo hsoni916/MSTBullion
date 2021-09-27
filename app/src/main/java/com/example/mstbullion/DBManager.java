@@ -93,4 +93,50 @@ public class DBManager {
         db.close();
             return false;
         }
+
+    public boolean usersignedIn() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials";
+        Cursor c = db.rawQuery(select,null);
+        if(c.moveToFirst()){
+            Log.d("Column Count:", String.valueOf(c.getColumnCount()));
+            Log.d("Status", String.valueOf(c.getDouble(2)));
+            if(c.getDouble(2)==0.0){
+                Log.d("True","SignedIn");
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public String getUser() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials";
+        Cursor c = db.rawQuery(select,null);
+        if(c.moveToFirst()){
+            if(!c.getString(0).isEmpty()){
+                return c.getString(0);
+            }
+        }
+        return null;
+    }
+
+    public boolean logout(String userName){
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials WHERE Username ='" + userName + "'";
+        Cursor c = db.rawQuery(select, null);
+        if (c.moveToFirst()) {
+            ContentValues cv = new ContentValues();
+            cv.put("SignIn",1);
+            db.update("credentials", cv, "Username=?", new String[]{userName});
+            return true;
+        }
+        c.close();
+        db.close();
+        return false;
+
+    }
 }

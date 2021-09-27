@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,22 +72,47 @@ public class UserAccount extends AppCompatActivity {
                 }
             });
         }else{
-            setContentView(R.layout.user_account_signin);
-            Name = findViewById(R.id.User);
-            Password = findViewById(R.id.Password);
-            CreateAccount = findViewById(R.id.LogIn);
-            CreateAccount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String UserName,PasswordString;
-                    UserName = Name.getText().toString();
-                    PasswordString = Password.getText().toString();
-                    if(dbManager.usersignin(UserName,PasswordString)){
-                        Log.d("Login Successfull","0");
-                    }
+            if(dbManager.usersignedIn()){
+                Log.d("True reset","");
+                if(dbManager.getUser()!=null) {
+                    Log.d("True reset","2");
+                    Log.d("User",dbManager.getUser());
+                    resetLayoutSignIn(dbManager.getUser());
                 }
-            });
+            }else{
+                setContentView(R.layout.user_account_signin);
+                Name = findViewById(R.id.User);
+                Password = findViewById(R.id.Password);
+                CreateAccount = findViewById(R.id.LogIn);
+                CreateAccount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String UserName,PasswordString;
+                        UserName = Name.getText().toString();
+                        PasswordString = Password.getText().toString();
+                        if(dbManager.usersignin(UserName,PasswordString)){
+                            Log.d("Login Successfull","0");
+                            Toast.makeText(v.getContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                            resetLayoutSignIn(UserName);
+                        }
+                    }
+                });
+            }
         }
+    }
 
+    private void resetLayoutSignIn(String userName) {
+        setContentView(R.layout.user_account_logout);
+        TextView username;
+        Button logout;
+        username = findViewById(R.id.User);
+        logout = findViewById(R.id.LogIn);
+        username.setText(userName);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbManager.logout(userName);
+            }
+        });
     }
 }

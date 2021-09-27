@@ -18,13 +18,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.model.Document;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,8 +29,6 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import io.socket.client.IO;
 import io.socket.client.Manager;
@@ -42,17 +37,18 @@ import io.socket.emitter.Emitter;
 import io.socket.engineio.client.Transport;
 
 public class MainActivity extends Fragment {
-    ImageView GDI,SDI,GDIMCX,SDIMCX;
+    ImageView GDI,SDI,GDIMCX,SDIMCX,IDI;
     Animation increase,decrease;
     RecyclerView MetalList;
     MetalListAdapter metalListAdapter;
     BullionEntry bullionEntry = new BullionEntry();
-    List<BullionEntry> bullionlist;
+    List<BullionEntry> adapterbullionlist;
+    List<Double> margins;
     private Context context;
     TextView GoldUsdTV,SilverUsdTV,InrUsdTV,GoldMcxTV,SilverMcxTV;
     int goldspot,silverspot;
-    double goldmcx,silvermcx;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    PamperPackArray pamperPackArray;
     MainActivity(){
 
     }
@@ -60,7 +56,7 @@ public class MainActivity extends Fragment {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://34.131.126.241");
+            mSocket = IO.socket("http://34.131.126.241:5000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -69,7 +65,17 @@ public class MainActivity extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
+    public int updatePriceList(){
+        for(int i=0;i<adapterbullionlist.size();i++){
+            if(adapterbullionlist.get(i).getLabel().contains("Gold")){
+                adapterbullionlist.get(i).setPrice(margins.get(i)+goldspot);
+            }else{
+                adapterbullionlist.get(i).setPrice(margins.get(i)+silverspot);
+            }
+        }
+        return 0;
     }
 
     @Nullable
@@ -97,17 +103,18 @@ public class MainActivity extends Fragment {
         mSocket.on("XAUUSDI", GoldUsdIncrease);
         mSocket.on("XAUUSDD", GoldUsdDecrease);
         mSocket.on("XAGUSD", SilverUsd);
-        mSocket.on("XAGUSDI", SilverUsd);
-        mSocket.on("XAGUSDD", SilverUsd);
-        mSocket.on("INRSPOT", InrUsd);
-        mSocket.on("INRSPOTI", InrUsd);
-        mSocket.on("INRSPOTD", InrUsd);
+        mSocket.on("XAGUSDI", SilverUsdIncrease);
+        mSocket.on("XAGUSDD", SilverUsdDecrease);
+        mSocket.on("INRUSD", InrUsd);
+        mSocket.on("INRUSDI", InrUsdIncrease);
+        mSocket.on("INRUSDD", InrUsdDecrease);
         mSocket.on("spotup", spotupdate);
         mSocket.on("spotupi", spotupdatei);
         GDI = view.findViewById(R.id.GDI);
         SDI = view.findViewById(R.id.SDI);
         GDIMCX = view.findViewById(R.id.GDIMCX);
         SDIMCX = view.findViewById(R.id.SDIMCX);
+        IDI = view.findViewById(R.id.IDI);
         GoldUsdTV = view.findViewById(R.id.GoldSpotPrices);
         SilverUsdTV = view.findViewById(R.id.SilverSpotPrices);
         InrUsdTV = view.findViewById(R.id.INRSpotPrices);
@@ -116,28 +123,34 @@ public class MainActivity extends Fragment {
         increase = AnimationUtils.loadAnimation(context,R.anim.translateup);
         decrease = AnimationUtils.loadAnimation(context,R.anim.translatedown);
         MetalList = view.findViewById(R.id.MetalList);
-        bullionlist = new ArrayList<>();
+
+        adapterbullionlist = new ArrayList<>();
         firebaseFirestore.collection("AdminOptions").document("Margin").addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error!=null){
-                            Log.d("Error in snapshot","listener");
-                    }else{
-                        if(value!=null && value.exists()){
-                            PamperPackArray pamperPackArray = value.toObject(PamperPackArray.class);
-                            assert pamperPackArray != null;
-                            //
-                            bullionlist.addAll(pamperPackArray.bullionEntries);
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    Log.d("Error in snapshot","listener");
+                }else{
+                    if(value!=null && value.exists()){
+                        pamperPackArray = value.toObject(PamperPackArray.class);
+                        assert pamperPackArray != null;
+                        adapterbullionlist.addAll(pamperPackArray.bullionEntries);
+                        margins = new ArrayList<>();
+                        for(int i=0;i<adapterbullionlist.size();i++){
+                            margins.add(adapterbullionlist.get(i).getPrice());
                         }
                     }
                 }
-            });
-        metalListAdapter = new MetalListAdapter(bullionlist);
+            }
+        });
+
+        metalListAdapter = new MetalListAdapter(adapterbullionlist);
         MetalList.setAdapter(metalListAdapter);
         MetalList.setLayoutManager(new LinearLayoutManager(context));
         MetalList.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
+
     public void setfirebaselistener(){
 
 
@@ -171,6 +184,7 @@ public class MainActivity extends Fragment {
         });*/
 
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -179,11 +193,11 @@ public class MainActivity extends Fragment {
         mSocket.off("XAUUSDI", GoldUsdIncrease);
         mSocket.off("XAUUSDD", GoldUsdDecrease);
         mSocket.off("XAGUSD", SilverUsd);
-        mSocket.off("XAGUSDI", SilverUsd);
-        mSocket.off("XAGUSDD", SilverUsd);
-        mSocket.off("INRSPOT", InrUsd);
-        mSocket.off("INRSPOTI", InrUsd);
-        mSocket.off("INRSPOTD", InrUsd);
+        mSocket.off("XAGUSDI", SilverUsdIncrease);
+        mSocket.off("XAGUSDD", SilverUsdDecrease);
+        mSocket.off("INRUSD", InrUsd);
+        mSocket.off("INRUSDI", InrUsd);
+        mSocket.off("INRUSDD", InrUsd);
         mSocket.off("spotup", spotupdate);
         mSocket.off("spotupi", spotupdatei);
     }
@@ -281,6 +295,35 @@ public class MainActivity extends Fragment {
         }
     };
 
+    private final Emitter.Listener InrUsdIncrease = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    InrUsdTV.setText(args[0].toString());
+                    IDI.setImageResource(R.drawable.up);
+                    IDI.startAnimation(increase);
+                }
+            });
+        }
+    };
+
+    private final Emitter.Listener InrUsdDecrease = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    InrUsdTV.setText(args[0].toString());
+                    IDI.setImageResource(R.drawable.down);
+                    IDI.startAnimation(decrease);
+
+                }
+            });
+        }
+    };
+
     private final Emitter.Listener spotupdate = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -312,7 +355,8 @@ public class MainActivity extends Fragment {
                                     GoldMcxTV.setText(String.valueOf(currentprice));
                                     GDIMCX.setImageResource(R.drawable.down);
                                     GDIMCX.startAnimation(decrease);
-                                }else{
+                                }
+                                if(goldspot<currentprice){
                                     goldspot = currentprice;
                                     GoldMcxTV.setText(String.valueOf(currentprice));
                                     GDIMCX.setImageResource(R.drawable.up);
@@ -335,14 +379,12 @@ public class MainActivity extends Fragment {
                                     SilverMcxTV.setText(String.valueOf(currentprice));
                                     SDIMCX.setImageResource(R.drawable.down);
                                     SDIMCX.startAnimation(decrease);
-                                    //fire increase animation
-                                }else{
+                                }
+                                if(silverspot<currentprice){
                                     silverspot = currentprice;
                                     SilverMcxTV.setText(String.valueOf(currentprice));
                                     SDIMCX.setImageResource(R.drawable.up);
                                     SDIMCX.startAnimation(increase);
-
-                                    //fire decrease animation
                                 }
                             }
                         }
@@ -350,8 +392,12 @@ public class MainActivity extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    updatePriceList();
+                    metalListAdapter.notifyDataSetChanged();
                 }
+
             });
+
         }
     };
 
@@ -371,8 +417,12 @@ public class MainActivity extends Fragment {
                     try {
                         if (!jsonObject.get("rows").toString().isEmpty()) {
                             jsonObject = jsonObject.getJSONObject("rows");
+                            goldspot = Integer.parseInt(jsonObject.getJSONObject("GOLD").get("last_price").toString());
+                            silverspot = Integer.parseInt(jsonObject.getJSONObject("SILVER").get("last_price").toString());
                             GoldMcxTV.setText(jsonObject.getJSONObject("GOLD").get("last_price").toString());
                             SilverMcxTV.setText(jsonObject.getJSONObject("SILVER").get("last_price").toString());
+                            updatePriceList();
+                            metalListAdapter.notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

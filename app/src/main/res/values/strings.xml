@@ -23,4 +23,6 @@
     <string name="create_account">Create Account</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
+    <string name="Signed_In">You are signed in as:</string>
+    <string name="log_out">Log Out</string>
 </resources>

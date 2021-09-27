@@ -112,6 +112,9 @@ public class UserAccount extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dbManager.logout(userName);
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
             }
         });
     }

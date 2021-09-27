@@ -1,10 +1,11 @@
 package com.example.mstbullion;
 
-import android.content.Context;
+
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,21 @@ public class MetalListAdapter extends RecyclerView.Adapter<MetalListAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.MetalLabel.setText(bullionList.get(position).getLabel());
         holder.Price.setText(String.valueOf(bullionList.get(position).getPrice()));
+        holder.Price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               DBManager dbManager = new DBManager(v.getContext());
+               dbManager.open();
+               if(dbManager.usersignedIn()){
+                   Log.d("User","signed In"+":"+holder.Price.getText());
+                    Intent intent = new Intent(v.getContext(),BullionBooking.class);
+                    intent.putExtra("ClickPrice",Integer.parseInt(holder.Price.getText().toString()));
+                    v.getContext().startActivity(intent);
+               }else{
+                   Log.d("User","signed out"+":"+holder.Price.getText());
+               }
+            }
+        });
     }
 
     @Override

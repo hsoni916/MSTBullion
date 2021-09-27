@@ -57,11 +57,7 @@ public class DBManager {
                         count = cursor.getCount();
                         if (!cursor.isClosed())
                             cursor.close();
-                        if(count>0){
-                            return true;
-                        }else{
-                            return false;
-                        }
+                        return count > 0;
                     }else{
                         return false;
                     }
@@ -80,19 +76,19 @@ public class DBManager {
     }
 
     public boolean usersignin(String userName, String passwordString) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String select = "SELECT * FROM credentials WHERE Username ='" + userName + "' AND Password='" + passwordString + "'";
-            Cursor c = db.rawQuery(select, null);
-            if (c.moveToFirst()) {
-                ContentValues cv = new ContentValues();
-                cv.put("SignIn",0);
-                db.update("credentials", cv, "Username=?", new String[]{userName});
-                return true;
-            }
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials WHERE Username ='" + userName + "' AND Password='" + passwordString + "'";
+        Cursor c = db.rawQuery(select, null);
+        if (c.moveToFirst()) {
+            ContentValues cv = new ContentValues();
+            cv.put("SignIn",0);
+            db.update("credentials", cv, "Username=?", new String[]{userName});
+            return true;
+        }
         c.close();
         db.close();
-            return false;
-        }
+        return false;
+    }
 
     public boolean usersignedIn() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -124,7 +120,6 @@ public class DBManager {
     }
 
     public boolean logout(String userName){
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String select = "SELECT * FROM credentials WHERE Username ='" + userName + "'";
         Cursor c = db.rawQuery(select, null);
@@ -137,6 +132,5 @@ public class DBManager {
         c.close();
         db.close();
         return false;
-
     }
 }

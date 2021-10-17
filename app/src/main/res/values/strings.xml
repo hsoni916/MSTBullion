@@ -24,7 +24,6 @@
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
     <string name="Signed_In">You are signed in as:</string>
-    <string name="log_out">Log Out</string>
     <string name="Booking">**New Bullion Booking**</string>
     <string name="quantity">Quantity</string>
     <string name="amount">Price</string>

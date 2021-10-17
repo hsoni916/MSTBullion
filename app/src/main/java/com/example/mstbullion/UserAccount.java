@@ -10,22 +10,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
+
+import java.util.Objects;
 
 public class UserAccount extends AppCompatActivity {
     EditText Business,Name,PhoneNumber,Password;
     Button CreateAccount;
     private DBManager dbManager;
-
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbManager = new DBManager(this);
         dbManager.open();
         if(!dbManager.check()){
+            Log.d("useraccount","True");
             setContentView(R.layout.user_account);
             Business = findViewById(R.id.Jewellers);
             Name = findViewById(R.id.User);
@@ -66,12 +73,24 @@ public class UserAccount extends AppCompatActivity {
                         //1 logged out
                     }
                     //Check for password.
-                    if(Business.getError()!=null||Name.getError()!=null||PhoneNumber.getError()!=null){
-                        //Set User Profile.
+                    if(Business.getError()==null&&Name.getError()==null&&PhoneNumber.getError()==null){
+                        Log.d("Button","Clicked");
+                        firebaseFirestore.collection("Accounts")
+                                .document(userProfile.getPhone()+userProfile.getBusiness())
+                                .set(userProfile)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            Log.d("UserAccount", "Created");
+                                        }
+                                    }
+                                });
                     }
                 }
             });
-        }else{
+        }
+        else{
             if(dbManager.usersignedIn()){
                 Log.d("True reset","");
                 if(dbManager.getUser()!=null) {
@@ -118,4 +137,5 @@ public class UserAccount extends AppCompatActivity {
             }
         });
     }
+
 }

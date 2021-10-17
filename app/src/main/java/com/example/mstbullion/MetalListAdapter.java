@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,10 +41,13 @@ public class MetalListAdapter extends RecyclerView.Adapter<MetalListAdapter.View
                if(dbManager.usersignedIn()){
                    Log.d("User","signed In"+":"+holder.Price.getText());
                     Intent intent = new Intent(v.getContext(),BullionBooking.class);
-                    intent.putExtra("ClickPrice",Integer.parseInt(holder.Price.getText().toString()));
+                    intent.putExtra("ClickPrice",Double.parseDouble(holder.Price.getText().toString()));
+                    intent.putExtra("Selection",bullionList.get(holder.getAdapterPosition()).getLabel());
                     v.getContext().startActivity(intent);
                }else{
-                   Log.d("User","signed out"+":"+holder.Price.getText());
+                   Toast.makeText(v.getContext(),"Not Signed In",Toast.LENGTH_LONG).show();
+                   Intent useraccount = new Intent(v.getContext(), UserAccount.class);
+                   v.getContext().startActivity(useraccount);
                }
             }
         });

@@ -4,21 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:background="@drawable/outline_2"
+    android:layout_margin="6dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
         <TextView
             android:id="@+id/Label"
             android:singleLine="true"
             android:text="Gold 999 IMP with GST"
             android:paddingStart="4dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:paddingEnd="4dp"
-            android:layout_width="0dp"
+            android:layout_margin="4dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/Price"
@@ -26,12 +28,13 @@
             android:textStyle="bold"
             android:text="49100"
             android:textAlignment="textEnd"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
+            android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,7 +42,6 @@
         <TextView
             android:id="@+id/Change"
             android:singleLine="true"
-            android:text="+292.0"
             android:textAlignment="textEnd"
             android:textSize="12sp"
             android:layout_width="0dp"
@@ -49,4 +51,5 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/Price"
             app:layout_constraintEnd_toEndOf="@id/Price"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,7 +67,7 @@ public class MainActivity extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public int updatePriceList(){
+    public void updatePriceList(){
         for(int i=0;i<adapterbullionlist.size();i++){
             if(adapterbullionlist.get(i).getLabel().contains("Gold")){
                 adapterbullionlist.get(i).setPrice(margins.get(i)+goldspot);
@@ -75,7 +75,6 @@ public class MainActivity extends Fragment {
                 adapterbullionlist.get(i).setPrice(margins.get(i)+silverspot);
             }
         }
-        return 0;
     }
 
     @Nullable
@@ -149,6 +148,7 @@ public class MainActivity extends Fragment {
         MetalList.setLayoutManager(new LinearLayoutManager(context));
         MetalList.setItemAnimator(new DefaultItemAnimator());
         return view;
+
     }
 
     public void setfirebaselistener(){
@@ -209,7 +209,9 @@ public class MainActivity extends Fragment {
                 @Override
                 public void run() {
                     Log.d("XAU,USD","True");
-                    GoldUsdTV.setText(args[0].toString());
+                    if(args[0]!=null){
+                        GoldUsdTV.setText(args[0].toString());
+                    }
                 }
             });
         }
@@ -249,7 +251,9 @@ public class MainActivity extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    SilverUsdTV.setText(args[0].toString());
+                    if(args[0]!=null){
+                        SilverUsdTV.setText(args[0].toString());
+                    }
                 }
             });
         }
@@ -289,7 +293,9 @@ public class MainActivity extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                if (args[0] != null){
                     InrUsdTV.setText(args[0].toString());
+                }
                 }
             });
         }
@@ -407,25 +413,27 @@ public class MainActivity extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("spotupi","True");
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject = new JSONObject(args[0].toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        if (!jsonObject.get("rows").toString().isEmpty()) {
-                            jsonObject = jsonObject.getJSONObject("rows");
-                            goldspot = Integer.parseInt(jsonObject.getJSONObject("GOLD").get("last_price").toString());
-                            silverspot = Integer.parseInt(jsonObject.getJSONObject("SILVER").get("last_price").toString());
-                            GoldMcxTV.setText(jsonObject.getJSONObject("GOLD").get("last_price").toString());
-                            SilverMcxTV.setText(jsonObject.getJSONObject("SILVER").get("last_price").toString());
-                            updatePriceList();
-                            metalListAdapter.notifyDataSetChanged();
+                    if(args[0]!=null){
+                        Log.d("spotupi","True");
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject = new JSONObject(args[0].toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        try {
+                            if (!jsonObject.get("rows").toString().isEmpty()) {
+                                jsonObject = jsonObject.getJSONObject("rows");
+                                goldspot = Integer.parseInt(jsonObject.getJSONObject("GOLD").get("last_price").toString());
+                                silverspot = Integer.parseInt(jsonObject.getJSONObject("SILVER").get("last_price").toString());
+                                GoldMcxTV.setText(jsonObject.getJSONObject("GOLD").get("last_price").toString());
+                                SilverMcxTV.setText(jsonObject.getJSONObject("SILVER").get("last_price").toString());
+                                updatePriceList();
+                                metalListAdapter.notifyItemRangeChanged(0, adapterbullionlist.size());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });

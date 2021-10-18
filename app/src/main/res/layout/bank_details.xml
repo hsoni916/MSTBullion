@@ -22,18 +22,19 @@
 
     <TextView
         android:id="@+id/BankName"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:text="@string/bank"
         android:layout_marginTop="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:paddingStart="4dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:textSize="16sp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintTop_toBottomOf="@id/Header_bank"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -47,7 +48,7 @@
         android:textSize="18sp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/BankName"
         app:layout_constraintBottom_toBottomOf="@id/BankName"
@@ -56,10 +57,10 @@
 
     <TextView
         android:id="@+id/AccountName"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:text="@string/account"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="56dp"
@@ -68,7 +69,7 @@
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:textSize="16sp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintTop_toBottomOf="@id/BankName"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -82,7 +83,7 @@
         android:textSize="18sp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/AccountName"
         app:layout_constraintBottom_toBottomOf="@id/AccountName"
@@ -90,10 +91,10 @@
 
     <TextView
         android:id="@+id/AccountNo"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:text="@string/account_no"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="56dp"
@@ -102,7 +103,7 @@
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:textSize="16sp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintTop_toBottomOf="@id/AccountName"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -116,7 +117,7 @@
         android:textSize="18sp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/AccountNo"
         app:layout_constraintBottom_toBottomOf="@id/AccountNo"
@@ -124,10 +125,10 @@
 
     <TextView
         android:id="@+id/IFSC"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:text="@string/ifsc"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="56dp"
@@ -136,7 +137,7 @@
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:textSize="16sp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintTop_toBottomOf="@id/AccountNoHolder"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -150,7 +151,7 @@
         android:textSize="18sp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/IFSC"
         app:layout_constraintBottom_toBottomOf="@id/IFSC"
@@ -158,10 +159,10 @@
 
     <TextView
         android:id="@+id/Branch"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:text="@string/Branch"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="56dp"
@@ -170,7 +171,7 @@
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:textSize="16sp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintTop_toBottomOf="@id/IFSC"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -184,7 +185,7 @@
         android:textSize="18sp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:background="@drawable/outline_1"
+        android:background="@drawable/outline_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/Branch"
         app:layout_constraintBottom_toBottomOf="@id/Branch"

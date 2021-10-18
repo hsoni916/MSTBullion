@@ -16,11 +16,7 @@
         <activity
             android:name=".PagerActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BankDetailsActivity">
 
@@ -30,6 +26,13 @@
         </activity>
         <activity android:name=".BullionBooking">
 
+        </activity>
+        <activity android:name=".bullionoptions">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

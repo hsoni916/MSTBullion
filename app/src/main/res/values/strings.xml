@@ -32,4 +32,12 @@
     <string name="margin">Parity</string>
     <string name="customer">Accounts</string>
     <string name="alert">Alerts</string>
+    <string name="active">Active</string>
+    <string name="inactive">Inactive</string>
+    <string name="gold_retail">Gold Retail</string>
+    <string name="gold_imp">Gold IMP</string>
+    <string name="silver_retail">Silver Retail</string>
+    <string name="silver_gst">Sivler 30 KGS</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

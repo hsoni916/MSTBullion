@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.Objects;
@@ -68,24 +71,43 @@ public class UserAccount extends AppCompatActivity {
                     }
                     PasswordString = Password.getText().toString();
                     if(!PasswordString.isEmpty()){
-                        dbManager.insert(UName, PasswordString, 0);
+                        dbManager.insert(UName, PasswordString,userProfile.getPhone(), 0);
                         //0 signed in
                         //1 logged out
                     }
                     //Check for password.
                     if(Business.getError()==null&&Name.getError()==null&&PhoneNumber.getError()==null){
                         Log.d("Button","Clicked");
-                        firebaseFirestore.collection("Accounts")
-                                .document(userProfile.getPhone()+userProfile.getBusiness())
-                                .set(userProfile)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()) {
-                                            Log.d("UserAccount", "Created");
+                        firebaseFirestore.collection("Accounts").whereEqualTo("phone",userProfile.getPhone()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                Log.d("Oncomplete","true");
+                                if(task.isSuccessful()){
+                                    if(task.getResult()!=null){
+                                        Log.d("Results not null","true");
+                                        if(!task.getResult().isEmpty()){
+                                            Log.d("Results not empty","true");
+                                            for(QueryDocumentSnapshot results : task.getResult()){
+                                                Log.d("Size of results",String.valueOf(results.getData().size()));
+                                              if(results.getData().size()==0){
+                                                  CFE(userProfile);
+                                              }else{
+                                                  Toast.makeText(v.getContext(),"Phone Number already exists.",Toast.LENGTH_LONG).show();
+                                                  dbManager.deleteUser(UName,PasswordString,userProfile.getPhone());
+                                              }
+                                            }
+                                        }else{
+                                            CFE(userProfile);
                                         }
+                                    }else{
+                                        CFE(userProfile);
                                     }
-                                });
+                                }else{
+                                    Toast.makeText(v.getContext(),"Query failed.",Toast.LENGTH_LONG).show();
+                                    dbManager.deleteUser(UName,PasswordString,userProfile.getPhone());
+                                }
+                            }
+                        });
                     }
                 }
             });
@@ -120,6 +142,21 @@ public class UserAccount extends AppCompatActivity {
         }
     }
 
+    private void CFE(UserProfile userProfile) {
+        firebaseFirestore.collection("Accounts")
+                .document(userProfile.getPhone()+userProfile.getBusiness())
+                .set(userProfile)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            Log.d("UserAccount", "Created");
+                            resetActivity();
+                        }
+                    }
+                });
+    }
+
     private void resetLayoutSignIn(String userName) {
         setContentView(R.layout.user_account_logout);
         TextView username;
@@ -130,12 +167,20 @@ public class UserAccount extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Logout", "clicked");
                 dbManager.logout(userName);
                 startActivity(getIntent());
+
                 finish();
                 overridePendingTransition(0, 0);
             }
         });
+    }
+
+    private void resetActivity(){
+        startActivity(getIntent());
+        finish();
+        overridePendingTransition(0, 0);
     }
 
 }

@@ -40,9 +40,6 @@ public class PamperPackActivity extends Fragment {
     Spinner BullionWeightSpinner, QuantitySpinner;
     Button ConfirmBook;
     FirebaseFirestore firebaseFirestore;
-    PamperPackActivity(){
-
-    }
 
     @Nullable
     @Override

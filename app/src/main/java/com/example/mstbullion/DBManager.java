@@ -34,12 +34,14 @@ public class DBManager {
         dbHelper.close();
     }
 
-    public void insert(String Uname, String passkey, int Status) {
-        String sql = "INSERT INTO credentials (Username, Password, SignIn) VALUES (?, ?, ?)";
+    public void insert(String Uname, String passkey,String phone, int Status ) {
+        Log.d("SQL","insert");
+        String sql = "INSERT INTO credentials (Username, Password, PhoneNumber, SignIn) VALUES (?, ?, ?, ?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.bindString(1, Uname);
         statement.bindString(2, passkey);
-        statement.bindDouble(3, Status);
+        statement.bindString(3,phone);
+        statement.bindDouble(4, Status);
         statement.executeInsert();
         close();
     }
@@ -96,8 +98,8 @@ public class DBManager {
         Cursor c = db.rawQuery(select,null);
         if(c.moveToFirst()){
             Log.d("Column Count:", String.valueOf(c.getColumnCount()));
-            Log.d("Status", String.valueOf(c.getDouble(2)));
-            if(c.getDouble(2)==0.0){
+            Log.d("Status", String.valueOf(c.getDouble(3)));
+            if(c.getDouble(4)==0.0){
                 Log.d("True","SignedIn");
                 return true;
             }else{
@@ -119,14 +121,22 @@ public class DBManager {
         return null;
     }
 
+    public boolean deleteUser(String Uname, String passkey,String phone){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int count = db.delete("credentials","Username = ?"  + "Password = ?" + "PhoneNumber = ?", new String[] {Uname, passkey, phone});
+        return count > 0;
+    }
+
     public boolean logout(String userName){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String select = "SELECT * FROM credentials WHERE Username ='" + userName + "'";
         Cursor c = db.rawQuery(select, null);
         if (c.moveToFirst()) {
+            Log.d("in","method");
             ContentValues cv = new ContentValues();
-            cv.put("SignIn",1);
-            db.update("credentials", cv, "Username=?", new String[]{userName});
+            cv.put("SignIn",1.0);
+            int count = db.update("credentials", cv, "Username=?", new String[]{userName});
+            Log.d("rows affected", String.valueOf(count));
             return true;
         }
         c.close();

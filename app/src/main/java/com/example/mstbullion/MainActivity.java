@@ -49,9 +49,6 @@ public class MainActivity extends Fragment {
     int goldspot,silverspot;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     PamperPackArray pamperPackArray;
-    MainActivity(){
-
-    }
 
     private Socket mSocket;
     {

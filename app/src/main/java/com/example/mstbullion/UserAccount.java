@@ -170,7 +170,6 @@ public class UserAccount extends AppCompatActivity {
                 Log.d("Logout", "clicked");
                 dbManager.logout(userName);
                 startActivity(getIntent());
-
                 finish();
                 overridePendingTransition(0, 0);
             }

@@ -82,6 +82,10 @@ public class PamperPackActivity extends Fragment {
                 }else{
                     Toast.makeText(context,"Attempting to book!",Toast.LENGTH_LONG).show();
                     //Firebase Method
+                    //Disable booking controls
+                    //finish booking
+                    //Show success message.
+                    //Enable booking controls
                 }
             }
         });*/

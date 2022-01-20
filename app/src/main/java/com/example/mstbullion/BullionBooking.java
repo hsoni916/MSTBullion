@@ -67,7 +67,7 @@ public class BullionBooking extends AppCompatActivity {
                     clickprice = getIntent().getDoubleExtra("ClickPrice",0);
                     label = getIntent().getStringExtra("Selection");
                     bullionRecord.setLabel(label);
-                    bullionRecord.setBuyer(dbManager.getUser());
+                    bullionRecord.setBuyer(dbManager.getUser()+":"+dbManager.getPhone());
                     {
                         try {
                             mSocket = IO.socket("http://34.131.126.241:5000");

@@ -57,7 +57,18 @@ public class PagerActivity extends AppCompatActivity {
         LogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DBManager dbManager = new DBManager(v.getContext());
+                dbManager.open();
+                if(dbManager.check()){
+                    if(dbManager.usersignedIn()){
+                        String username = dbManager.getUser();
+                        if(username!=null){
+                            if(dbManager.logout(username)){
+                                //Add what happens at log out.
+                            }
+                        }
+                    }
+                }
             }
         });
     }

@@ -143,4 +143,16 @@ public class DBManager {
         db.close();
         return false;
     }
+
+    public String getPhone() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials";
+        Cursor c = db.rawQuery(select,null);
+        if(c.moveToFirst()){
+            if(!c.getString(2).isEmpty()){
+                return c.getString(2);
+            }
+        }
+        return null;
+    }
 }

@@ -139,13 +139,11 @@ public class MainActivity extends Fragment {
                 }
             }
         });
-
         metalListAdapter = new MetalListAdapter(adapterbullionlist);
         MetalList.setAdapter(metalListAdapter);
         MetalList.setLayoutManager(new LinearLayoutManager(context));
         MetalList.setItemAnimator(new DefaultItemAnimator());
         return view;
-
     }
 
     public void setfirebaselistener(){

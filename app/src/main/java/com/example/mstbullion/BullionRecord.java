@@ -5,26 +5,30 @@ import android.os.Parcelable;
 
 public class BullionRecord implements Parcelable {
 
-    String buyer,timestamp,label;
+    String buyer,timestamp,label,phone;
     double price,amount,quantity;
 
     public BullionRecord(){
 
     }
 
-    public BullionRecord(String buyer, String timestamp, String label, double price, double amount, double quantity) {
+    public BullionRecord(String buyer, String timestamp, String label, String phone, double price, double amount, double quantity) {
+
         this.buyer = buyer;
         this.timestamp = timestamp;
         this.label = label;
+        this.phone = phone;
         this.price = price;
         this.amount = amount;
         this.quantity = quantity;
+
     }
 
     protected BullionRecord(Parcel in) {
         buyer = in.readString();
         timestamp = in.readString();
         label = in.readString();
+        phone = in.readString();
         price = in.readDouble();
         amount = in.readDouble();
         quantity = in.readDouble();
@@ -66,6 +70,14 @@ public class BullionRecord implements Parcelable {
         this.label = label;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -97,11 +109,14 @@ public class BullionRecord implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeString(buyer);
         dest.writeString(timestamp);
         dest.writeString(label);
+        dest.writeString(phone);
         dest.writeDouble(price);
         dest.writeDouble(amount);
         dest.writeDouble(quantity);
+
     }
 }

@@ -5,15 +5,15 @@ import android.os.Parcelable;
 
 public class BullionRecord implements Parcelable {
 
-    String buyer,timestamp,label,phone;
+    String bname,buyer,timestamp,label,phone;
     double price,amount,quantity;
 
     public BullionRecord(){
 
     }
 
-    public BullionRecord(String buyer, String timestamp, String label, String phone, double price, double amount, double quantity) {
-
+    public BullionRecord(String bname, String buyer, String timestamp, String label, String phone, double price, double amount, double quantity) {
+        this.bname = bname;
         this.buyer = buyer;
         this.timestamp = timestamp;
         this.label = label;
@@ -25,6 +25,7 @@ public class BullionRecord implements Parcelable {
     }
 
     protected BullionRecord(Parcel in) {
+        bname = in.readString();
         buyer = in.readString();
         timestamp = in.readString();
         label = in.readString();
@@ -45,6 +46,14 @@ public class BullionRecord implements Parcelable {
             return new BullionRecord[size];
         }
     };
+
+    public String getBname() {
+        return bname;
+    }
+
+    public void setBname(String bname) {
+        this.bname = bname;
+    }
 
     public String getBuyer() {
         return buyer;

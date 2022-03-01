@@ -19,8 +19,8 @@ public class DBHelper extends SQLiteOpenHelper {
     // database version
     static final int DB_VERSION = 1;
 
-    private static final String CREATE_TABLE = "create table if not exists " + "credentials" + "(" + "Username"
-            + " TEXT NOT NULL, " + "Password" + " TEXT NOT NULL, " + "PhoneNumber" + " TEXT NOT NULL, " + "GST" + " TEXT, " + "SignIn" + " INTEGER NOT NUll CHECK (SignIn IN (0, 1)));";
+    private static final String CREATE_TABLE = "create table if not exists " + "credentials" +
+            "(" + "Username" + " TEXT NOT NULL, " + "Business" + "TEXT NOT NULL," + "Password" + " TEXT NOT NULL, " + "PhoneNumber" + " TEXT NOT NULL, " + "GST" + " TEXT, " + "SignIn" + " INTEGER NOT NUll CHECK (SignIn IN (0, 1)));";
 
 
     public DBHelper(@Nullable Context context) {

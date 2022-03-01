@@ -63,6 +63,7 @@ ImageView ShareDetails;
                         }
                     }
                 });
+
         ShareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,5 +85,6 @@ ImageView ShareDetails;
                 }
             }
         });
+
     }
 }

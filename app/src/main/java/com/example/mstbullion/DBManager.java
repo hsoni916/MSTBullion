@@ -34,14 +34,15 @@ public class DBManager {
         dbHelper.close();
     }
 
-    public void insert(String Uname, String passkey,String phone, int Status ) {
+    public void insert(String Uname, String Bname, String passkey,String phone, int Status ) {
         Log.d("SQL","insert");
-        String sql = "INSERT INTO credentials (Username, Password, PhoneNumber, SignIn) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO credentials (Username, Business, Password, PhoneNumber, SignIn) VALUES (?, ?, ?, ?, ?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.bindString(1, Uname);
-        statement.bindString(2, passkey);
-        statement.bindString(3,phone);
-        statement.bindDouble(4, Status);
+        statement.bindString(2,Bname);
+        statement.bindString(3, passkey);
+        statement.bindString(4,phone);
+        statement.bindDouble(5, Status);
         statement.executeInsert();
         close();
     }
@@ -116,6 +117,18 @@ public class DBManager {
         if(c.moveToFirst()){
             if(!c.getString(0).isEmpty()){
                 return c.getString(0);
+            }
+        }
+        return null;
+    }
+
+    public String getBusiness() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String select = "SELECT * FROM credentials";
+        Cursor c = db.rawQuery(select,null);
+        if(c.moveToFirst()){
+            if(!c.getString(1).isEmpty()){
+                return c.getString(1);
             }
         }
         return null;

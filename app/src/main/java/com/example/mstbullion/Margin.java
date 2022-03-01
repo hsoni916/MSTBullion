@@ -16,4 +16,5 @@ public class Margin {
     public void setLabel(String label) {
         Label = label;
     }
+
 }

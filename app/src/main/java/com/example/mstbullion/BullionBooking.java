@@ -139,6 +139,7 @@ public class BullionBooking extends AppCompatActivity {
                         public void onClick(View v) {
                             //Check if the quantity is not zero or empty.
                             Quantity.setEnabled(false);
+                            bullionRecord.setBname(dbManager.getBusiness());
                             book.setEnabled(false);
                             if(!Quantity.getText().toString().isEmpty()){
                                 if(!Quantity.getText().toString().equalsIgnoreCase("0")){

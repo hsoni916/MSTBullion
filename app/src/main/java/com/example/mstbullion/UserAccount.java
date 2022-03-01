@@ -71,7 +71,7 @@ public class UserAccount extends AppCompatActivity {
                     }
                     PasswordString = Password.getText().toString();
                     if(!PasswordString.isEmpty()){
-                        dbManager.insert(UName, PasswordString,userProfile.getPhone(), 0);
+                        dbManager.insert(UName, BName, PasswordString,userProfile.getPhone(), 0);
                         //0 signed in
                         //1 logged out
                     }
